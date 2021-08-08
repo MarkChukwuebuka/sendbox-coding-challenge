@@ -1,47 +1,75 @@
-def move():
-    # user enters coordinates and movements
-    #input format for coordinates: 1 2 N
-    #input format for movements: L M M M L R R
-    cordinates = input("enter cordinates: ").split(" ")
-    movement = input("enter movement: ").split(" ")
-
-    X = int(cordinates[0])
-    Y = int(cordinates[1])
-    pos = cordinates[2]
+class Robot():
     
-    for i in movement: 
-        # check current letter is L or R
-        if i != "M":
-            if i == "L":
-                if pos == "W":
-                    pos="S"
-                elif pos == "N":
-                    pos="W"
-                elif pos == "E":
-                    pos="N"
-                else:
-                    pos="E"
-            else:
-                if pos == "W":
-                    pos="N"
-                elif pos == "E":
-                    pos="S"
-                elif pos == "N":
-                    pos="E"
-                else:
-                    pos="W"
-        # executes if the letter is M
-        else:
-            if pos == "W":
-                X -= 1
-            elif pos == "E":
-                X += 1
-            elif pos == "N":
-                Y += 1
-            else:
-                Y -= 1
-    return X, Y, pos
+    # initialization
+    def __init__(self, x, y, pos, movement):
+        self.x = x
+        self.y = y
+        self.pos = pos
+        self.movement = movement
+    
+    # movement in any direction
+    def move(self):
+        for i in self.movement:
+            if self.pos == 'N':
+                self.north(i)
+                continue
+            elif self.pos == 'E':    
+                self.east(i)
+                continue
+            elif self.pos == 'S':
+                self.south(i)
+                continue
+            elif self.pos == 'W':
+                self.west(i)
+                continue
+        return(self.x,self.y, self.pos)
+        
+
+    def move_left(self):
+        self.x-=1
+
+    def move_right(self):
+        self.x+=1
+    
+    def move_up(self):
+        self.y+=1
+    
+    def move_down(self):
+        self.y-=1
+    
+    def north(self, i):
+        if i == 'L':
+            self.pos = 'W'
+        elif i == 'R':
+            self.pos = 'E'
+        elif i == 'M':
+            self.move_up()
+    
+    def east(self, i):
+        if i == 'L':
+            self.pos = 'N'
+        elif i == 'R':
+            self.pos = 'S'
+        elif i == 'M':
+            self.move_right()
+    
+    def south(self, i):
+        if i == 'L':
+            self.pos = 'E'
+        elif i == 'R':
+            self.pos = 'W'
+        elif i == 'M':
+            self.move_down()
+    
+    def west(self, i):
+        if i == 'L':
+            self.pos = 'S'
+        elif i == 'R':
+            self.pos = 'N'
+        elif i == 'M':
+            self.move_left()
 
 
-# function call
-move()
+mars = Robot(1, 2, 'N', ['L', 'M', 'L', 'M', 'L', 'M', 'L','M','M'])
+
+print(mars.move())
